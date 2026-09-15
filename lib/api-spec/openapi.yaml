@@ -1,0 +1,155 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: bookings
+    description: JETT booking operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /bookings:
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      summary: Save a JETT booking
+      description: Stores non-sensitive booking details before payment verification.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBookingRequest"
+      responses:
+        "201":
+          description: Booking stored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingCreatedResponse"
+        "400":
+          description: Invalid booking data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "502":
+          description: Database request failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    CreateBookingRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        bookingType:
+          type: string
+          enum: [arab, luggage]
+        origin:
+          type: string
+          minLength: 1
+          maxLength: 120
+        destination:
+          type: string
+          minLength: 1
+          maxLength: 120
+        tripType:
+          type: string
+          enum: [economy, vip]
+        travelDate:
+          type: string
+          format: date
+        scheduleId:
+          type: string
+          minLength: 1
+          maxLength: 40
+        passengers:
+          type: integer
+          minimum: 1
+          maximum: 20
+        luggage:
+          type: integer
+          minimum: 0
+          maximum: 20
+        contactName:
+          type: string
+          minLength: 2
+          maxLength: 160
+        phoneCode:
+          type: string
+          minLength: 2
+          maxLength: 8
+        phoneNumber:
+          type: string
+          minLength: 5
+          maxLength: 24
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        amountJod:
+          type: number
+          minimum: 0
+          maximum: 100000
+      required:
+        - bookingType
+        - origin
+        - destination
+        - tripType
+        - travelDate
+        - scheduleId
+        - passengers
+        - luggage
+        - contactName
+        - phoneCode
+        - phoneNumber
+        - email
+        - amountJod
+    BookingCreatedResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending_verification]
+      required:
+        - id
+        - status
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+

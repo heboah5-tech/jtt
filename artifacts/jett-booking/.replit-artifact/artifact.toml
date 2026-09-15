@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "JETT Booking"
+description = "A responsive Arabic RTL intercity bus booking experience recreated from the supplied mobile references, with trip selection, schedules, passengers, contact details, and booking confirmation."
+version = "1.0.0"
+id = "artifacts/jett-booking"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19214
+
+[services.development]
+run = "pnpm --filter @workspace/jett-booking run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/jett-booking", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/jett-booking/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19214"
+BASE_PATH = "/"

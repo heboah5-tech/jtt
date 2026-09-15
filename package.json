@@ -1,0 +1,25 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run build --workspace=@workspace/jett-booking && npm run build --workspace=@workspace/api-server",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "npm run typecheck:libs && npm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
+    "start": "npm run start --workspace=@workspace/api-server",
+    "dev": "npm run build --workspace=@workspace/jett-booking && npm run dev --workspace=@workspace/api-server"
+  },
+  "private": true,
+  "dependencies": {
+    "@replit/connectors-sdk": "^0.4.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "typescript": "~5.9.3"
+  },
+  "workspaces": [
+    "artifacts/*",
+    "lib/*",
+    "scripts"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Remix JETT-Booking-Clone",
+  "description": "Imported from GitHub: heboah5-tech/JETT-Booking-Clone",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
