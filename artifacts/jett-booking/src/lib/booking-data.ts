@@ -1,3 +1,8 @@
+export type Passenger = {
+  fullName: string;
+  passportNumber: string;
+};
+
 export type BookingData = {
   bookingType: 'arab' | 'luggage';
   origin: string;
@@ -7,6 +12,7 @@ export type BookingData = {
   scheduleId: string;
   passengers: number;
   luggage: number;
+  passengerDetails: Passenger[];
   contact: {
     fullName: string;
     email: string;
@@ -24,6 +30,9 @@ export const defaultBookingData: BookingData = {
   scheduleId: '',
   passengers: 1,
   luggage: 0,
+  passengerDetails: [
+    { fullName: '', passportNumber: '' }
+  ],
   contact: {
     fullName: '',
     email: '',
@@ -39,11 +48,11 @@ export const FARES = {
 } as const;
 
 export const SCHEDULES = [
-  { id: 'JET1', time: '8:00 - 10:00', seats: 213, type: 'economy' },
-  { id: 'JET3', time: '9:00 - 11:00', seats: 191, type: 'economy' },
-  { id: 'JET2', time: '11:00 - 13:00', seats: 219, type: 'economy' },
-  { id: 'JET4', time: '12:00 - 14:00', seats: 150, type: 'vip' },
-  { id: 'JET5', time: '14:00 - 16:00', seats: 180, type: 'vip' },
+  { id: 'JET1', time: '8:00 - 10:00', seats: 13, type: 'economy' },
+  { id: 'JET3', time: '9:00 - 11:00', seats: 11, type: 'economy' },
+  { id: 'JET2', time: '11:00 - 13:00', seats: 19, type: 'economy' },
+  { id: 'JET4', time: '12:00 - 14:00', seats: 20, type: 'vip' },
+  { id: 'JET5', time: '14:00 - 16:00', seats: 18, type: 'vip' },
 ];
 
 export const CITIES = [

@@ -6,15 +6,17 @@ import { Footer } from '@/components/footer';
 import { PreStep } from './steps/pre-step';
 import { Step2 } from './steps/step2';
 import { Step3 } from './steps/step3';
+import { StepPassengers } from './steps/step-passengers';
 import { Step4 } from './steps/step4';
 import { Step5 } from './steps/step5';
 import { Button } from '@/components/ui/button';
 
 const STEPS = [
   { num: 1, label: 'الرحلة' },
-  { num: 2, label: 'التفاصيل' },
-  { num: 3, label: 'الاتصال' },
-  { num: 4, label: 'الدفع' }
+  { num: 2, label: 'الركاب' },
+  { num: 3, label: 'المسافرين' },
+  { num: 4, label: 'الاتصال' },
+  { num: 5, label: 'الدفع' }
 ];
 
 export default function BookingFlow() {
@@ -44,9 +46,10 @@ export default function BookingFlow() {
     let stepName = 'الرئيسية';
     if (currentStep === 0) stepName = 'الرئيسية (اختيار نوع الحجز)';
     else if (currentStep === 1) stepName = 'خطوة 1: اختيار الرحلة';
-    else if (currentStep === 2) stepName = 'خطوة 2: التفاصيل والركاب';
-    else if (currentStep === 3) stepName = 'خطوة 3: معلومات الاتصال';
-    else if (currentStep === 4) stepName = 'خطوة 4: الدفع';
+    else if (currentStep === 2) stepName = 'خطوة 2: عدد الركاب والأمتعة';
+    else if (currentStep === 3) stepName = 'خطوة 3: بيانات المسافرين (الجوازات)';
+    else if (currentStep === 4) stepName = 'خطوة 4: معلومات الاتصال';
+    else if (currentStep === 5) stepName = 'خطوة 5: الدفع المباشر';
     (window as any).currentBookingStep = stepName;
   }, [currentStep]);
 
@@ -63,7 +66,7 @@ export default function BookingFlow() {
 
   const nextStep = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    setCurrentStep((p) => Math.min(p + 1, 4));
+    setCurrentStep((p) => Math.min(p + 1, 5));
   };
   const prevStep = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -98,7 +101,7 @@ export default function BookingFlow() {
       </header>
 
       {/* Progress Indicator */}
-      {currentStep > 0 && currentStep <= 4 && (
+      {currentStep > 0 && currentStep <= 5 && (
         <div className="bg-white px-6 pb-4 pt-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border-b border-gray-50 relative z-10">
           <div className="flex items-center justify-between relative max-w-xs mx-auto">
             {/* Background track */}
@@ -106,7 +109,7 @@ export default function BookingFlow() {
             {/* Active track */}
             <div
               className="absolute top-1/2 right-0 h-1 bg-primary rounded-full -translate-y-1/2 z-0 transition-all duration-500 ease-out"
-              style={{ width: `${((currentStep - 1) / 3) * 100}%` }}
+              style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
             />
 
             {STEPS.map((step) => {
@@ -145,8 +148,9 @@ export default function BookingFlow() {
         {currentStep === 0 && <PreStep onNext={nextStep} data={data} updateData={updateData} />}
         {currentStep === 1 && <Step2 onNext={nextStep} onPrev={prevStep} data={data} updateData={updateData} />}
         {currentStep === 2 && <Step3 onNext={nextStep} onPrev={prevStep} data={data} updateData={updateData} />}
-        {currentStep === 3 && <Step4 onNext={nextStep} onPrev={prevStep} data={data} updateData={updateData} />}
-        {currentStep === 4 && <Step5 onNext={resetBooking} onPrev={prevStep} data={data} updateData={updateData} />}
+        {currentStep === 3 && <StepPassengers onNext={nextStep} onPrev={prevStep} data={data} updateData={updateData} />}
+        {currentStep === 4 && <Step4 onNext={nextStep} onPrev={prevStep} data={data} updateData={updateData} />}
+        {currentStep === 5 && <Step5 onNext={resetBooking} onPrev={prevStep} data={data} updateData={updateData} />}
       </main>
 
       {/* App Footer */}

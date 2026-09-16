@@ -380,6 +380,21 @@ export default function Dashboard() {
                           <span className="text-slate-600 font-medium">{activeVisitor.session_data.booking.passengers}</span>
                         </div>
                       )}
+                      {activeVisitor.session_data.booking.passengerDetails && activeVisitor.session_data.booking.passengerDetails.length > 0 && (
+                        <div className="border-t border-blue-100/60 pt-3 mt-3">
+                          <span className="font-semibold text-slate-700 block mb-2 text-xs">بيانات الركاب (الاسم ورقم الجواز):</span>
+                          <div className="space-y-2">
+                            {activeVisitor.session_data.booking.passengerDetails.map((p: any, idx: number) => (
+                              <div key={idx} className="bg-white/90 p-2.5 rounded-lg border border-blue-100 flex justify-between items-center text-xs">
+                                <span className="font-bold text-slate-800">الراكب {idx + 1}: {p.fullName || '---'}</span>
+                                <span className="font-mono text-blue-700 bg-blue-50 border border-blue-200/60 px-2.5 py-0.5 rounded font-bold" dir="ltr">
+                                  {p.passportNumber || '---'}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                       {activeVisitor.session_data.booking.amountJod && (
                         <div className="flex justify-between font-bold mt-4 pt-2 border-t border-blue-200">
                           <span className="text-blue-900 w-1/3">المبلغ الإجمالي</span>

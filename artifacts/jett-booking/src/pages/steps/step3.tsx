@@ -25,7 +25,14 @@ export function Step3({ data, updateData, onNext, onPrev }: Props) {
   const handlePassengerChange = (delta: number) => {
     const newVal = data.passengers + delta;
     if (newVal >= 1 && newVal <= 5) {
-      updateData({ passengers: newVal });
+      const current = data.passengerDetails ? [...data.passengerDetails] : [];
+      while (current.length < newVal) {
+        current.push({ fullName: '', passportNumber: '' });
+      }
+      if (current.length > newVal) {
+        current.splice(newVal);
+      }
+      updateData({ passengers: newVal, passengerDetails: current });
     }
   };
 

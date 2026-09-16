@@ -1,6 +1,6 @@
 {
   "name": "Remix JETT-Booking-Clone",
-  "description": "Imported from GitHub: heboah5-tech/JETT-Booking-Clone",
+  "description": "منصة حجز تذاكر جت تشمل اختيار الرحلات، وتحديد الركاب، وإدخال بيانات الجوازات والأسماء، ومعلومات الاتصال، والدفع الإلكتروني.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

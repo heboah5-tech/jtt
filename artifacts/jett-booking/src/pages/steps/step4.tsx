@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BookingData, PHONE_CODES } from '@/lib/booking-data';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, User, Mail, Phone } from 'lucide-react';
@@ -12,6 +13,17 @@ type Props = {
 };
 
 export function Step4({ data, updateData, onNext, onPrev }: Props) {
+  useEffect(() => {
+    if (!data.contact.fullName && data.passengerDetails?.[0]?.fullName) {
+      updateData({
+        contact: {
+          ...data.contact,
+          fullName: data.passengerDetails[0].fullName,
+        },
+      });
+    }
+  }, [data.passengerDetails, data.contact, updateData]);
+
   const isFormValid = data.contact.fullName.trim() !== '' && data.contact.phone.trim() !== '';
 
   return (

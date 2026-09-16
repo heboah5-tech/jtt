@@ -27,7 +27,7 @@ function Router() {
     <RoutedErrorBoundary>
       <ScrollToTop />
       <Switch>
-        <Route path="/" component={Dashboard} />
+        <Route path="/" component={BookingFlow} />
         <Route path="/admin" component={Dashboard} />
         <Route component={NotFound} />
       </Switch>
