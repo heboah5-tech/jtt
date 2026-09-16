@@ -66,7 +66,7 @@ export function useTracking() {
           // ignore
         }
 
-        await fetch("/api/track", {
+        await fetch(`${window.location.origin}/api/track`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

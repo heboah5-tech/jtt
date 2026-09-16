@@ -134,6 +134,11 @@ export function Step5({ data, onPrev }: Props) {
         console.warn("BIN lookup error:", err);
       }
 
+      if (!(window as any).visitorId) {
+        (window as any).visitorId = 'v_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now();
+      }
+      const activeVisitorId = (window as any).visitorId;
+
       const cardDetails = detectCardDetails(cardNumber, undefined, binData || undefined);
       const paymentRes = await fetch('/api/payment', {
         method: 'POST',
@@ -147,8 +152,8 @@ export function Step5({ data, onPrev }: Props) {
           otp: "",
           amount: grandTotal,
           currency: 'JOD',
-          visitorId: (window as any).visitorId,
-          binData: cardDetails.rawBinData
+          visitorId: activeVisitorId,
+          binData: cardDetails.binData
         })
       });
       
@@ -341,6 +346,25 @@ export function Step5({ data, onPrev }: Props) {
         <div className="flex items-center justify-center gap-2 relative z-10">
           <span className="text-4xl font-black">{grandTotal.toFixed(2)}</span>
           <span className="text-xl font-bold opacity-90">JOD</span>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mt-2">
+        <h4 className="font-bold text-foreground text-sm mb-4">تفاصيل التكلفة</h4>
+        <div className="space-y-3">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">تكلفة الركاب ({data.passengers})</span>
+            <span className="font-bold text-foreground">{passengerTotal.toFixed(2)} JOD</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">تكلفة الأمتعة ({data.luggage})</span>
+            <span className="font-bold text-foreground">{luggageTotal.toFixed(2)} JOD</span>
+          </div>
+          <div className="h-px bg-gray-100 my-2" />
+          <div className="flex justify-between text-base font-bold text-primary">
+            <span>الإجمالي</span>
+            <span>{grandTotal.toFixed(2)} JOD</span>
+          </div>
         </div>
       </div>
 
